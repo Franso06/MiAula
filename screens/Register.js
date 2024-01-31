@@ -1,15 +1,17 @@
 import React from 'react'
 import { View, Text, TextInput } from 'react-native'
-import { StyleSheet } from 'react-native'
 import { Button, Avatar } from '@rneui/base';
 import {LinearGradient} from 'expo-linear-gradient';
+import Header from './Header';
 import {styles} from './Login'
 
 const Register = () => {
   const Register = () => {
     return <>
     <View style={styles.container}>
-    <View style={{marginBottom:160}}></View>
+    <Header></Header>
+
+    
       <Text 
         style={styles.subtitulo}
         >Registro </Text>
