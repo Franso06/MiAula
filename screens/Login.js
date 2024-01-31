@@ -3,10 +3,11 @@ import { useFonts } from 'expo-font';
 import { Button, Avatar } from '@rneui/base';
 import { useNavigation } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
+import Header from './Header';
 import MaskedView from "@react-native-masked-view/masked-view";
 import React from 'react';
 
-export const Login = () => {
+export default function Login(){
     const navigation = useNavigation();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -16,32 +17,12 @@ export const Login = () => {
       'Kalam-Light': require('../assets/fonts/Kalam-Light.ttf'),
       'AmaticSC-Bold': require('../assets/fonts/AmaticSC-Bold.ttf'),
       'AmaticSC-Regular': require('../assets/fonts/AmaticSC-Regular.ttf'),
-
     });
-      const GradientText = (props) => {
-      return (
-        <MaskedView maskElement={<Text {...props} />}>
-          <LinearGradient
-            colors={["#df54f2","#5986ff","#00ffe7"]}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-          >
-            <Text {...props} style={[props.style, { opacity: 0 }]} />
-          </LinearGradient>
-        </MaskedView>
-      );
-    };
-    
+
     const Formulario = () => {
       return <>
           <View style={styles.container}>
-            
-              <View style={{marginBottom:50}}></View>
-              {fontsLoaded &&<GradientText style={styles.titulo}>MiAula</GradientText>}
-              <Text style={{fontSize: 12.5,alignSelf:'flex-end', color: "#7D7C7C",right:30,top:2}}>para alumnos y profesores </Text>
-
-              <Image style={styles.imagen} source={require('../assets/logo.png')} />
-            
+            <Header></Header>
             <Text 
               style={styles.subtitulo}
               >Ingresa o registrate </Text>
@@ -93,6 +74,7 @@ export const Login = () => {
     
     return (
       <Formulario/>
+      
     );
 }
 
@@ -153,5 +135,3 @@ export const styles = StyleSheet.create({
       marginTop: 10,
     },
   });
-
-  export default Login;
