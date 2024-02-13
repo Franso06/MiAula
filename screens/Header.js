@@ -1,6 +1,6 @@
 import {  Text, View, Image } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import { styles } from './Login';
+import { styles } from '../components/styles';
 import { useFonts } from 'expo-font';
 import MaskedView from "@react-native-masked-view/masked-view";
 import React from 'react';

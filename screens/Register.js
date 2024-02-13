@@ -3,7 +3,7 @@ import { View, Text, TextInput } from 'react-native'
 import { Button, Avatar } from '@rneui/base';
 import {LinearGradient} from 'expo-linear-gradient';
 import Header from './Header';
-import {styles} from './Login'
+import {styles} from '../components/styles';
 
 const Register = () => {
   const Register = () => {
@@ -11,7 +11,6 @@ const Register = () => {
     <View style={styles.container}>
     <Header></Header>
 
-    
       <Text 
         style={styles.subtitulo}
         >Registro </Text>
