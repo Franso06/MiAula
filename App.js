@@ -1,24 +1,54 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './screens/Login';
+import Home from './screens/Home';
 import Register from './screens/Register';
+import {firebase} from './firebase-config';
 
 const Stack = createNativeStackNavigator();
 
 const App = ()=>  {
- 
+
+  const [initializing, setInitializing] = useState(true); 
+  const [user, setUser] = useState(); 
+
+  function onAuthStateChanged(user){
+    setUser(user);
+    if(initializing){
+      setInitializing(false);
+    }
+  };
+  
+  useEffect(() => {
+      const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+      return subscriber; 
+  }, []);
+
+  if(initializing) return null;
+  
+  if(!user){
+    return (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name= "Login" component= {Login}/>
+        <Stack.Screen name= "Register" component= {Register}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  };
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}>
-        <Stack.Screen name= "Login" component= {Login}/>
-        <Stack.Screen name= "Register" component= {Register}/>
+      <Stack.Screen name= "Home" component= {Home}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 
 export default App;

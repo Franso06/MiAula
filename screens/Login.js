@@ -1,16 +1,32 @@
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Button, Avatar } from '@rneui/base';
 import { useNavigation } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Header from './Header';
-import MaskedView from "@react-native-masked-view/masked-view";
-import React from 'react';
+import { styles } from '../components/styles';
+import {firebase} from '../firebase-config';
+import React, {useState} from 'react';
 
-export default function Login(){
+export default function Login() {
     const navigation = useNavigation();
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = useState('');
+    var correo = '';
+    const [password, setPassword] = useState('');
+    var contra = '';
+
+    loginUser = async (email, password) => {
+        try {
+          await firebase.auth().signInWithEmailAndPassword(email, password);
+        } catch (error) {
+          if(!email || email==''){
+            alert("Debe ingresar un correo")
+          }else if(!password || email==''){
+            alert("Debe ingresar la contraseña")
+          }
+        };
+    };
+
     const [fontsLoaded] = useFonts({
       'Merriweather-Italic': require('../assets/fonts/Merriweather-Italic.ttf'),
       'DancingScript-Regular': require('../assets/fonts/DancingScript-Regular.ttf'),
@@ -29,20 +45,27 @@ export default function Login(){
   
             <TextInput 
                 placeholder= 'Correo' 
+                onChangeText={(value) => correo = value} //esto se debe hacer ya que el input al estar dentro de un scroll solo agrega la 1 letra
+                onEndEditing={()=> {setEmail(correo); console.log("correo: "+correo);}}
+                defaultValue={email}
                 style={styles.input}
                 type="email"
-            ></TextInput>
+            />
   
             <TextInput
                 placeholder= 'Contraseña'
+                onChangeText={(value) => contra = value} 
+                onEndEditing={()=> {setPassword(contra); console.log("contraseña: "+contra);}}
+                defaultValue={password}
                 style={styles.input}
                 secureTextEntry={true}
-            ></TextInput>
+            />
             <Text 
                 style={styles.olvideContrasenia}>
                 No tienes cuenta? <Text onPress={() => navigation.navigate('Register') }style={{textDecorationLine: 'underline', color:'black'}}>Registrate</Text>  </Text>
             <Button  type="outline" 
                 title="Ingresar"
+                onPress={() => loginUser(email, password)}
                 titleStyle={{color:'white'}} 
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
@@ -78,60 +101,4 @@ export default function Login(){
     );
 }
 
-export const styles = StyleSheet.create({
-    imagen:{
-      width:180,
-      height:180,
-      marginBottom:-90,
-      bottom:110,
-      marginLeft:-30,
-    },
-    titulo:{
-      fontSize: 80,
-      fontFamily: 'AmaticSC-Bold', 
-      marginLeft:155,
-      margin:-15,
-    },
-    subtitulo:{
-        fontSize:20, 
-        marginTop:0, 
-        marginBottom:10,
-        marginLeft:10, 
-        alignSelf:'flex-start'
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#F1EFEF',
-      padding:20,
-      paddingBottom: 0,
-    },
-    input: {
-      borderRadius: 5,
-      borderStyle: "solid",
-      borderColor: "#373131",
-      borderWidth: 1,
-      margin: 8,
-      padding: 10,
-    },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 10,
-      margin: 8,
-      borderRadius: 5,
-      marginTop: 40,
-    },
-    text: {
-      fontSize: 16,
-      lineHeight: 21,
-      fontWeight: 'bold',
-      letterSpacing: 0.25,
-      color: 'white',
-    },
-    
-    olvideContrasenia: {
-      color: "#7D7C7C",
-      marginLeft: 12,
-      marginTop: 10,
-    },
-  });
+
