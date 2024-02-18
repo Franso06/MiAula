@@ -21,7 +21,7 @@ export default function Login() {
         } catch (error) {
           if(!email || email==''){
             alert("Debe ingresar un correo")
-          }else if(!password || email==''){
+          }else if(!password || password==''){
             alert("Debe ingresar la contraseña")
           }
         };
@@ -75,9 +75,9 @@ export default function Login() {
                 }}
                 buttonStyle={{ width:'95%',marginBottom:7, height:45, alignSelf:'center', marginTop:20, borderRadius:5}}></Button>
 
-            <Text style={{alignSelf:'center'}}>o</Text>
+            {/* <Text style={{alignSelf:'center'}}>o</Text> */}
   
-            <Button 
+            {/* <Button 
               type="outline" 
               titleStyle={{color:'black'}} 
               buttonStyle={{backgroundColor: '#F1EFEF', width:'95%', alignSelf:'center', marginTop:10, borderColor:'#7D7C7C', borderRadius:5}}>
@@ -87,7 +87,7 @@ export default function Login() {
                   containerStyle={{marginRight:8}}>
                 </Avatar> 
             Google
-            </Button>
+            </Button> */}
   
             
               
