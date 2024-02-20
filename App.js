@@ -3,7 +3,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './screens/Login';
 import Home from './screens/Home';
+import Option from './screens/Option';
 import Register from './screens/Register';
+import OptionProfesores from './screens/OptionProfesores';
 import {firebase} from './firebase-config';
 
 const Stack = createNativeStackNavigator();
@@ -44,7 +46,10 @@ const App = ()=>  {
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen name= "Option" component= {Option}/>
+      <Stack.Screen name= "OptionProfesores" component= {OptionProfesores}/>
       <Stack.Screen name= "Home" component= {Home}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

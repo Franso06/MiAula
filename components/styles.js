@@ -5,13 +5,13 @@ export const styles = StyleSheet.create({
       width:180,
       height:180,
       marginBottom:-90,
-      bottom:110,
-      marginLeft:-30,
+      bottom:120,
+      marginLeft:-12,
     },
     titulo:{
       fontSize: 80,
       fontFamily: 'AmaticSC-Bold', 
-      marginLeft:155,
+      marginLeft:165,
       margin:-15,
     },
     subtitulo:{
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#F1EFEF',
-      padding:20,
+      padding:10,
       paddingBottom: 0,
     },
     input: {
@@ -36,12 +36,12 @@ export const styles = StyleSheet.create({
       padding: 10,
     },
     button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 10,
-      margin: 8,
-      borderRadius: 5,
-      marginTop: 40,
+      width:'95%',
+      marginBottom:0, 
+      height:45, 
+      alignSelf:'center', 
+      marginTop:15, 
+      borderRadius:7
     },
     text: {
       fontSize: 16,
