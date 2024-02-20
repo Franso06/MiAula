@@ -30,9 +30,9 @@ export default function Header () {
     return(
       <>
 
-      <View style={{marginBottom:35}}></View>
+      <View style={{marginBottom:55}}></View>
           {fontsLoaded && <GradientText style={styles.titulo}>MiAula</GradientText>}
-          <Text style={{fontSize: 12.5,alignSelf:'flex-end', color: "#7D7C7C",right:30,top:2}}>para alumnos y profesores </Text>
+          <Text style={{fontSize: 12.5,alignSelf:'flex-end', color: "#7D7C7C",right:40,top:2}}>para alumnos y profesores </Text>
 
          <Image style={styles.imagen} source={require('../assets/logo.png')} />
     </>

@@ -1,6 +1,6 @@
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, ScrollView, Keyboard } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Button, Avatar } from '@rneui/base';
+import { Button, Avatar, Input } from '@rneui/base';
 import { useNavigation } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Header from './Header';
@@ -10,22 +10,16 @@ import React, {useState} from 'react';
 
 export default function Login() {
     const navigation = useNavigation();
-    const [email, setEmail] = useState('');
-    var correo = '';
-    const [password, setPassword] = useState('');
-    var contra = '';
 
     loginUser = async (email, password) => {
+        Keyboard.dismiss();
         try {
-          await firebase.auth().signInWithEmailAndPassword(email, password);
+            await firebase.auth().signInWithEmailAndPassword(email, password);
         } catch (error) {
-          if(!email || email==''){
-            alert("Debe ingresar un correo")
-          }else if(!password || password==''){
-            alert("Debe ingresar la contraseña")
-          }
+          alert(error.message);
         };
     };
+
 
     const [fontsLoaded] = useFonts({
       'Merriweather-Italic': require('../assets/fonts/Merriweather-Italic.ttf'),
@@ -36,33 +30,36 @@ export default function Login() {
     });
 
     const Formulario = () => {
+      const [password, setPassword] = useState(null);
+      const [email, setEmail] = useState(null);
+
       return <>
-          <View style={styles.container}>
+          <ScrollView style={styles.container}>
             <Header></Header>
             <Text 
               style={styles.subtitulo}
               >Ingresa o registrate </Text>
-  
+
+            <Text style={styles.olvideContrasenia}>Correo:</Text>            
             <TextInput 
-                placeholder= 'Correo' 
-                onChangeText={(value) => correo = value} //esto se debe hacer ya que el input al estar dentro de un scroll solo agrega la 1 letra
-                onEndEditing={()=> {setEmail(correo); console.log("correo: "+correo);}}
-                defaultValue={email}
+                onChangeText={value => {setEmail(value); console.log("email: "+value);}}
+                value={email}
                 style={styles.input}
                 type="email"
             />
-  
+
+            <Text style={styles.olvideContrasenia}>Contraseña:</Text>
             <TextInput
-                placeholder= 'Contraseña'
-                onChangeText={(value) => contra = value} 
-                onEndEditing={()=> {setPassword(contra); console.log("contraseña: "+contra);}}
-                defaultValue={password}
+                onChangeText={value => {setPassword(value); console.log("password: "+value);}}
+                value={password}
                 style={styles.input}
                 secureTextEntry={true}
             />
+
             <Text 
                 style={styles.olvideContrasenia}>
-                No tienes cuenta? <Text onPress={() => navigation.navigate('Register') }style={{textDecorationLine: 'underline', color:'black'}}>Registrate</Text>  </Text>
+                No tienes cuenta? <Text onPress={() => navigation.navigate('Register')} style={{textDecorationLine: 'underline', color:'black'}}>Registrate</Text>  </Text>
+           
             <Button  type="outline" 
                 title="Ingresar"
                 onPress={() => loginUser(email, password)}
@@ -73,7 +70,7 @@ export default function Login() {
                     start: { x: 0, y: 0.5 },
                     end: { x: 1, y: 0.5 },
                 }}
-                buttonStyle={{ width:'95%',marginBottom:7, height:45, alignSelf:'center', marginTop:20, borderRadius:5}}></Button>
+                buttonStyle={styles.button}></Button>
 
             {/* <Text style={{alignSelf:'center'}}>o</Text> */}
   
@@ -91,7 +88,7 @@ export default function Login() {
   
             
               
-          </View>
+          </ScrollView>
       </>;
     }
     
