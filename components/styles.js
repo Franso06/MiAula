@@ -56,4 +56,37 @@ export const styles = StyleSheet.create({
       marginLeft: 12,
       marginTop: 10,
     },
+    dropdown: {
+      height: 50,
+      borderColor: '#F1EFEF',
+      borderWidth: 0.5,
+      borderRadius: 8,
+      paddingHorizontal: 8,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    label: {
+      position: 'absolute',
+      backgroundColor: '#F1EFEF',
+      left: 22,
+      top: 8,
+      zIndex: 999,
+      paddingHorizontal: 8,
+      fontSize: 12,
+    },
+    placeholderStyle: {
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      fontSize: 14,
+    },
+    iconStyle: {
+      width: 18,
+      height: 18,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
   });

@@ -5,48 +5,62 @@ import { Button, Avatar } from "@rneui/base";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { firebase } from "../firebase-config";
+import { Dropdown } from "react-native-element-dropdown";
 import Header from "./Header";
 
 const Register = () => {
-  const navigation = useNavigation();
- 
-
-  registerUser = async (email, password) => {
-    Keyboard.dismiss();
-    try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          ingresarDatos();
-        });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const ingresarDatos = async () => {
-    try {
-      await firebase
-        .firestore()
-        .collection("Usuarios")
-        .add({
-          name: { name },
-          email: { email },
-          password: { password },
-        })
-        .then(() => {
-          console.log("Usuario agregado!");
-        });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   const Formulario = () => {
+    const opciones = [
+      { label: "Profesor", value: "1" },
+      { label: "Alumno", value: "2" },
+    ];
+
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [value, setValue] = useState(null);
+    const [isFocus, setIsFocus] = useState(false);
+    const navigation = useNavigation();
+
+    registerUser = async (email, password) => {
+      Keyboard.dismiss();
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            
+            ingresarDatos();
+          });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const ingresarDatos = async () => {
+      const id = firebase.auth().currentUser.uid;
+            if (id) {
+              console.log(id);
+            }
+      try {
+        await firebase
+          .firestore()
+          .collection("Usuarios")
+          .add({
+            id: { id },
+            name: { name },
+            email: { email },
+            password: { password },
+            value: { value },
+          })
+          .then(() => {
+            console.log("Usuario agregado!");
+          });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
     return (
       <>
         <ScrollView style={styles.container}>
@@ -56,24 +70,52 @@ const Register = () => {
 
           <Text style={styles.olvideContrasenia}>Nombre completo:</Text>
           <TextInput
-            onChangeText={value => {setName(value); console.log("name: "+value);}}
+            onChangeText={(value) => {
+              setName(value);
+              console.log("name: " + value);
+            }}
             value={name}
             style={styles.input}
             type="name"
           ></TextInput>
 
+          <Text style={styles.olvideContrasenia}>¿Profesor o alumno?:</Text>
+          <Dropdown
+            data={opciones}
+            style={styles.input}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            labelField="label"
+            valueField="label"
+            placeholder={!isFocus ? "" : ""}
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={(item) => {
+              console.log(item.label);
+              setValue(item.label);
+              setIsFocus(false);
+            }}
+          />
+
           <Text style={styles.olvideContrasenia}>Correo:</Text>
           <TextInput
-            onChangeText={value => {setEmail(value); console.log("email: "+value);}}
+            onChangeText={(value) => {
+              setEmail(value);
+              console.log("email: " + value);
+            }}
             value={email}
             style={styles.input}
             keyboardType="email-address"
             type="email"
           ></TextInput>
-          
+
           <Text style={styles.olvideContrasenia}>Contraseña:</Text>
           <TextInput
-            onChangeText={value => {setPassword(value); console.log("password: "+value);}}
+            onChangeText={(value) => {
+              setPassword(value);
+              console.log("password: " + value);
+            }}
             value={password}
             style={styles.input}
             secureTextEntry={true}
