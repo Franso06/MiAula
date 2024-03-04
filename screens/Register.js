@@ -10,6 +10,7 @@ import Header from "./Header";
 
 const Register = () => {
   const Formulario = () => {
+    
     const opciones = [
       { label: "Profesor", value: "1" },
       { label: "Alumno", value: "2" },

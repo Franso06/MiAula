@@ -28,6 +28,7 @@ const Option = () => {
 
       <Button 
       ViewComponent={LinearGradient}
+      onPress={() => navigation.navigate('OptionAlumnos') }
       linearGradientProps={{
         colors: ["#fd3cff","#00cdc8"],
         start: { x: 0, y: 0.5 },

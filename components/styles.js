@@ -89,4 +89,8 @@ export const styles = StyleSheet.create({
       height: 40,
       fontSize: 16,
     },
+    camera: {
+      width: 300,
+      height: 300,
+    },
   });
