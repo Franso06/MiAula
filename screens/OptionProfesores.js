@@ -5,7 +5,6 @@ import { Button } from "@rneui/base";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { firebase } from "../firebase-config";
-import QRCode from "react-native-qrcode-svg";
 import Header from "./Header";
 
 const OptionProfesores = () => {
@@ -27,7 +26,6 @@ const OptionProfesores = () => {
   };
 
   const idClase = generarIdUnico(); 
-
   const [curso, setCurso] = useState(null);
   const [asignatura, setAsignatura] = useState(null);
 
@@ -89,12 +87,7 @@ const OptionProfesores = () => {
       >
         Crear
       </Button>
-      {/* <QRCode
-        value={profesor}
-        size={200}
-        color='white'
-        backgroundColor='black'>
-        </QRCode> */}
+      
     </View>
   );
 };
