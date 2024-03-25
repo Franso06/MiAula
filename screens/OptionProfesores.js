@@ -54,7 +54,7 @@ const OptionProfesores = () => {
   return (
     <View style={styles.container}>
       <Header></Header>
-
+    
       <Text style={styles.subtitulo}>Creación de la clase </Text>
 
       <Text style={styles.olvideContrasenia}>Curso:</Text>

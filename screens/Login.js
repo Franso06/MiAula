@@ -46,6 +46,7 @@ export default function Login() {
                 value={email}
                 style={styles.input}
                 type="email"
+                keyboardType="email-address"
             />
 
             <Text style={styles.olvideContrasenia}>Contraseña:</Text>
