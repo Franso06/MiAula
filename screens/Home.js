@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Button, ListItem } from "@rneui/base";
+import { Text, ScrollView, View } from "react-native";
+import { Button } from "@rneui/base";
 import { firebase } from "../firebase-config";
 import { styles } from "../components/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -13,14 +13,6 @@ const Home = () => {
   const usuario = firebase.auth().currentUser.uid; // Obtenemos el UID del usuario actual
   const [codigo, setCodigo] = useState(null);
   const [lista, setLista] = useState([]);
-
-  // const llenarLista = async () => {
-  //   const querySnapshot = await firebase.firestore().collection("Clase").get();
-  //   querySnapshot.forEach((documentSnapshot) => {
-  //     const data = documentSnapshot.data();
-  //     const id = documentSnapshot.data().profesor;
-  //   });
-  // };
 
   useEffect(() => {
     const buscarProfesor = async () => {
@@ -49,35 +41,27 @@ const Home = () => {
     buscarProfesor();
   }, [usuario]);
 
-  const ListaClases = () => {
-    return (
-      <>
-        <ScrollView>
-          {lista.map((clase, index) => (
-            <ListItem
-              key={index}
-              title={clase.curso}
-              subtitle={clase.asignatura}
-              bottomDivider
-              chevron
-            />
-          ))}
-        </ScrollView>
-      </>
-    );
-  };
   return (
     <ScrollView style={styles.container}>
       {codigo ? ( //Interfaz del profesor
         <>
-          <Button title="Salir" onPress={() => firebase.auth().signOut()} />
-          <QRCode
+          {/* <QRCode
             value={codigo}
             size={200}
             color="white"
             backgroundColor="black"
-          />
-          <ListaClases />
+          /> */}
+          <View style={{marginTop:60}}/>
+          {lista.map((clase, index) => (
+            <List.Item
+            key={index}
+            title= {` ${clase.curso}`}
+            description={`${clase.asignatura}`}
+            backgroundColor = "white"
+            style={{borderRadius:10, marginBottom:6, marginTop:6}}
+            />
+            ))}
+        <Button title="Salir" style= {{}} onPress={() => firebase.auth().signOut()} />
         </>
       ) : (
         //interfaz del alumno
