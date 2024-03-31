@@ -7,12 +7,14 @@ import { useNavigation } from "@react-navigation/native";
 import { List } from "react-native-paper";
 import QRCode from "react-native-qrcode-svg";
 
-//ToDo: recorrer todas las clases, mostrar todas las clases que tenga un profesor, al ingresar a esta se debe ver el chat y el qr del mismo.
+
 
 const Home = () => {
   const usuario = firebase.auth().currentUser.uid; // Obtenemos el UID del usuario actual
   const [codigo, setCodigo] = useState(null);
   const [lista, setLista] = useState([]);
+  const [listaUsuarios, setListaUsuarios] = useState([]);
+
 
   useEffect(() => {
     const buscarProfesor = async () => {
@@ -39,29 +41,55 @@ const Home = () => {
     };
 
     buscarProfesor();
+    buscarUsuarios();
   }, [usuario]);
+
+  const buscarUsuarios = async () => {
+    const querySnapshot = await firebase
+      .firestore()
+      .collection("Usuarios")
+      .get();
+    const usuariosEncontrados = [];
+
+    querySnapshot.forEach((documentSnapshot) => {
+      const idUsuarios = documentSnapshot.data().id;
+
+      usuariosEncontrados.push( idUsuarios );
+    });
+
+    setListaUsuarios(usuariosEncontrados);
+  };
+
+  console.log(listaUsuarios);
 
   return (
     <ScrollView style={styles.container}>
       {codigo ? ( //Interfaz del profesor
         <>
-          {/* <QRCode
-            value={codigo}
-            size={200}
-            color="white"
-            backgroundColor="black"
-          /> */}
-          <View style={{marginTop:60}}/>
+          <View style={{ margin:60, padding:60 , alignContent:'center', alignSelf:'center' }}>
+            <QRCode
+              value={codigo}
+              size={200}
+              color="black"
+              backgroundColor="white"
+            />
+          </View>
+
+          <View style={{ marginTop: 60 }} />
           {lista.map((clase, index) => (
             <List.Item
-            key={index}
-            title= {` ${clase.curso}`}
-            description={`${clase.asignatura}`}
-            backgroundColor = "white"
-            style={{borderRadius:10, marginBottom:6, marginTop:6}}
+              key={index}
+              title={` ${clase.curso}`}
+              description={`${clase.asignatura}`}
+              backgroundColor="white"
+              style={{ borderRadius: 10, marginBottom: 6, marginTop: 6 }}
             />
-            ))}
-        <Button title="Salir" style= {{}} onPress={() => firebase.auth().signOut()} />
+          ))}
+          <Button
+            title="Salir"
+            style={{}}
+            onPress={() => firebase.auth().signOut()}
+          />
         </>
       ) : (
         //interfaz del alumno

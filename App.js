@@ -16,6 +16,7 @@ const App = ()=>  {
   const [initializing, setInitializing] = useState(true); 
   const [user, setUser] = useState(); 
 
+  
   function onAuthStateChanged(user){
     setUser(user);
     if(initializing){
@@ -27,6 +28,7 @@ const App = ()=>  {
       const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
       return subscriber; 
   }, []);
+  
 
   if(initializing) return null;
   
@@ -49,8 +51,8 @@ const App = ()=>  {
         headerShown: false,
       }}>
       <Stack.Screen name= "Home" component= {Home}/>
+      <Stack.Screen name= "OptionAlumnos" component= {OptionAlumnos}/>  
       <Stack.Screen name= "Option" component= {Option}/>
-      <Stack.Screen name= "OptionAlumnos" component= {OptionAlumnos}/>
       <Stack.Screen name= "OptionProfesores" component= {OptionProfesores}/>
 
       </Stack.Navigator>
