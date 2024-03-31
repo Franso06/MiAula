@@ -6,19 +6,41 @@ import { CameraView } from "expo-camera/next";
 import { useNavigation } from "@react-navigation/native";
 import Header from "./Header";
 
-//ToDo: cuando lea el qr, que ya lo hace, debe de buscarse si existe una clase con esa id y si es asi entonces que lo envie a 'Home'
-//ToDo2: colocar una id unica de la clase y asignatura, ya que un profesor puede tener varias clases
+//ToDo: Cuando se lea el QR que se agregue el usuario a la clase del qr.
+
 const OptionAlumnos = () => {
+  const usuario = firebase.auth().currentUser.uid; // Obtenemos el UID del usuario actual
   const [codigo, setCodigo] = useState(null);
-  const [hasPermission, setHasPermission] = useState(null);
-  const navigation = useNavigation(); 
-  
+  const [lista, setLista] = useState([]);
+  const navigation = useNavigation();
+
+    const buscarClases = async () => {
+      const querySnapshot = await firebase
+        .firestore()
+        .collection("Clase")
+        .get();
+      const clasesEncontradas = [];
+
+      querySnapshot.forEach((documentSnapshot) => {
+        const idClases = documentSnapshot.data().idClase.idClase;
+
+        clasesEncontradas.push( idClases );
+      });
+
+      setLista(clasesEncontradas);
+    };
+    buscarClases();
+
+
   const handleCodeScanned = (data) => {
-    if(data){
-      console.log("lectura: "+ data.data);
-      navigation.navigate("Home");
+    console.log("lectura: " + data.data);
+    console.log(lista);
+    if(lista.includes(data.data)){
+      navigation.navigate('Home') 
+    }else{
+      console.log("no es el qr de una clase");
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -27,11 +49,10 @@ const OptionAlumnos = () => {
       <CameraView
         barcodeScannerSettings={{
           barcodeTypes: ["qr"],
-
-      }}
-      style={{ flex: 1, maxHeight: '80%',  }}
-      onBarcodeScanned={handleCodeScanned}
-    />
+        }}
+        style={{ flex: 1, maxHeight: "80%" }}
+        onBarcodeScanned={handleCodeScanned}
+      />
     </View>
   );
 };
