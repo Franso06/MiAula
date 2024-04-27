@@ -6,41 +6,54 @@ import { CameraView } from "expo-camera/next";
 import { useNavigation } from "@react-navigation/native";
 import Header from "./Header";
 
-//ToDo: Cuando se lea el QR que se agregue el usuario a la clase del qr.
+//ToDo: Encontrar el id del alumno, guardarlos en un array con su id (para poder encontrarlo dentro del map), su nombre para esto usarlo en el chat
 
 const OptionAlumnos = () => {
-  const usuario = firebase.auth().currentUser.uid; // Obtenemos el UID del usuario actual
+  const usuario = firebase.auth().currentUser.uid;
   const [codigo, setCodigo] = useState(null);
-  const [lista, setLista] = useState([]);
+  const [clases, setClases] = useState([]);
   const navigation = useNavigation();
 
+  useEffect(() => {
     const buscarClases = async () => {
-      const querySnapshot = await firebase
-        .firestore()
-        .collection("Clase")
-        .get();
-      const clasesEncontradas = [];
-
-      querySnapshot.forEach((documentSnapshot) => {
-        const idClases = documentSnapshot.data().idClase.idClase;
-
-        clasesEncontradas.push( idClases );
-      });
-
-      setLista(clasesEncontradas);
+      const querySnapshot = await firebase.firestore().collection('Clase').get();
+      const clasesEncontradas = querySnapshot.docs.map((doc) => ({
+        id: doc.id, // ID del documento
+        idClase: doc.data().idClase.idClase // IDClase
+      }));
+      setClases(clasesEncontradas);
     };
     buscarClases();
-
-
-  const handleCodeScanned = (data) => {
-    console.log("lectura: " + data.data);
-    console.log(lista);
-    if(lista.includes(data.data)){
-      navigation.navigate('Home') 
-    }else{
-      console.log("no es el qr de una clase");
+  }, []);
+  
+  const handleCodeScanned = async (data) => {
+    console.log('lectura: ' + data.data);
+    console.log(clases);
+  
+    const claseEncontrada = clases.find((clase) => clase.idClase === data.data);
+    if (claseEncontrada) {
+      try {
+        // Referencia al documento de la clase
+        const claseRef = firebase.firestore().collection('Clase').doc(claseEncontrada.id);
+  
+        // Agregar el usuario a la lista de alumnos
+        await claseRef.set({
+          alumnos: {
+            [usuario]: { nombre: 'Nombre del alumno', apellido: 'Apellido del alumno' }
+          }
+        }, { merge: true }); // Usamos merge para combinar datos si el documento ya existe
+  
+        console.log('Usuario agregado a la clase correctamente');
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Error al agregar usuario a la clase:', error);
+      }
+    } else {
+      console.log('No es el QR de una clase válida');
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>

@@ -50,10 +50,10 @@ const App = ()=>  {
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name= "Home" component= {Home}/>
       <Stack.Screen name= "OptionAlumnos" component= {OptionAlumnos}/>  
-      <Stack.Screen name= "Option" component= {Option}/>
+      <Stack.Screen name= "Home" component= {Home}/>
       <Stack.Screen name= "OptionProfesores" component= {OptionProfesores}/>
+      <Stack.Screen name= "Option" component= {Option}/>
 
       </Stack.Navigator>
     </NavigationContainer>
