@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { List } from "react-native-paper";
 import QRCode from "react-native-qrcode-svg";
 
-
+//ToDo: buscar a los alumnos si es que ya estan o no en una clase, si no estan entonces redirigirlos hacia el lector de qr y asi tambien ver las clases en las que estos estan y mostrarlas tal cual como la de los profes
 
 const Home = () => {
   const usuario = firebase.auth().currentUser.uid; // Obtenemos el UID del usuario actual
